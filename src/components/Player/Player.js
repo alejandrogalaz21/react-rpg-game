@@ -6,7 +6,7 @@ const Player = ({ position }) => {
   return (
     <div
       style={{
-        position: 'relative',
+        position: 'absolute',
         top: position[1],
         left: position[0],
         backgroundImage: `url(${walkSprite})`,

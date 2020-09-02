@@ -1,7 +1,7 @@
 import React from 'react'
 import Layout from './Layout'
 
-import Player from './Player/Player'
+import World from './World/World'
 
 function Home() {
   return (
@@ -9,7 +9,7 @@ function Home() {
       {/* Begin page content */}
       <main role='main' className='flex-shrink-0'>
         <div className='container'>
-          <Player />
+          <World />
         </div>
       </main>
     </Layout>
