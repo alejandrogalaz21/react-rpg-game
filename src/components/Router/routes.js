@@ -4,10 +4,10 @@ import About from './../About'
 export const routes = [
   {
     path: '/',
-    componet: Home
+    component: Home
   },
   {
     path: '/about',
-    componet: About
+    component: About
   }
 ]
