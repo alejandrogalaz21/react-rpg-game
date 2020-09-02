@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import walkSprite from './player_walk.png'
-import { handleMovement } from './move'
+import { store } from '../../App'
 
 function dispatchMove(position) {
   return {
@@ -13,7 +13,7 @@ function dispatchMove(position) {
 const Player = ({ position, ...props }) => {
   const SPRITE_SIZE = 40
   function getNewPosition(direction) {
-    const oldPos = position
+    const oldPos = store.getState().player.position
 
     switch (direction) {
       case 'LEFT':
@@ -55,9 +55,12 @@ const Player = ({ position, ...props }) => {
     }
   }
 
-  window.addEventListener('keydown', event => {
-    handleKeyDown(event)
-  })
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [])
 
   return (
     <div
@@ -74,10 +77,7 @@ const Player = ({ position, ...props }) => {
   )
 }
 
-const mapStateToProps = ({ player }) => ({
-  ...player
-})
-
+const mapStateToProps = ({ player }) => ({ ...player })
 const mapDispatchToProps = {
   dispatchMove: dispatchMove
 }
