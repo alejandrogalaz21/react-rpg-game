@@ -5,7 +5,6 @@ import Router from './components/Router'
 const store = configureStore()
 
 console.log(process.env.REACT_APP_ENV)
-console.log({ store })
 
 function App() {
   return (

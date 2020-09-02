@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import walkSprite from './player_walk.png'
 import { handleMovement } from './move'
 
 const Player = ({ position }) => {
-  debugger
+  useEffect(() => {
+    console.log(position)
+    return () => {}
+  }, [position])
+
   return (
     <div
       style={{

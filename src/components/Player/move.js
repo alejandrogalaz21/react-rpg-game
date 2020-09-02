@@ -18,6 +18,8 @@ export function handleMovement(player) {
         return [oldPos[0], oldPos[1] - SPRITE_SIZE]
       case 'DOWN':
         return [oldPos[0], oldPos[1] + SPRITE_SIZE]
+      default:
+        return oldPos
     }
   }
 
