@@ -4,6 +4,7 @@ import walkSprite from './player_walk.png'
 import { handleMovement } from './move'
 
 const Player = ({ position }) => {
+  debugger
   return (
     <div
       style={{
