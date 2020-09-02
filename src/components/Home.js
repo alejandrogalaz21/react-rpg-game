@@ -1,16 +1,15 @@
 import React from 'react'
 import Layout from './Layout'
 
+import Player from './Player/Player'
+
 function Home() {
   return (
     <Layout>
       {/* Begin page content */}
       <main role='main' className='flex-shrink-0'>
         <div className='container'>
-          <h1 className='mt-5'>react-setup</h1>
-          <p>
-            Github <a href='https://github.com/alejandrogalaz21/react-setup'>react-setup</a>
-          </p>
+          <Player />
         </div>
       </main>
     </Layout>
