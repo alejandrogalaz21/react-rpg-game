@@ -3,9 +3,9 @@ import { Link, NavLink } from 'react-router-dom'
 
 function Navigation() {
   return (
-    <nav className='navbar navbar-expand-md navbar-dark fixed-top bg-dark'>
+    <nav className='navbar navbar-expand-lg navbar-light bg-light fixed-top'>
       <Link className='navbar-brand' to='/'>
-        Fixed navbar
+        Logo
       </Link>
       <button
         className='navbar-toggler'
