@@ -1,17 +1,36 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 
 function Navigation() {
   return (
-    <nav>
-      <ul>
-        <li>
-          <Link to='/'>Home</Link>
-        </li>
-        <li>
-          <Link to='/about'>About</Link>
-        </li>
-      </ul>
+    <nav className='navbar navbar-expand-md navbar-dark fixed-top bg-dark'>
+      <Link className='navbar-brand' to='/'>
+        Fixed navbar
+      </Link>
+      <button
+        className='navbar-toggler'
+        type='button'
+        data-toggle='collapse'
+        data-target='#navbarCollapse'
+        aria-controls='navbarCollapse'
+        aria-expanded='false'
+        aria-label='Toggle navigation'>
+        <span className='navbar-toggler-icon' />
+      </button>
+      <div className='collapse navbar-collapse' id='navbarCollapse'>
+        <ul className='navbar-nav mr-auto'>
+          <li className='nav-item'>
+            <NavLink exact activeClassName='active' className='nav-link' to='/'>
+              Home <span className='sr-only'>(current)</span>
+            </NavLink>
+          </li>
+          <li className='nav-item'>
+            <NavLink exact activeClassName='active' className='nav-link' to='/about'>
+              About
+            </NavLink>
+          </li>
+        </ul>
+      </div>
     </nav>
   )
 }
