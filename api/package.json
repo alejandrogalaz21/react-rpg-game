@@ -1,0 +1,43 @@
+{
+  "name": "babel-server",
+  "version": "1.0.0",
+  "description": "node server using babel",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/index.js --exec babel-node",
+    "build": "babel src -d dist",
+    "serve": "node dist/index.js",
+    "test": "mocha --require @babel/register"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alejandrogalaz21/node-babel-server-.git"
+  },
+  "keywords": [
+    "node",
+    "node.js",
+    "babel",
+    "node-babel",
+    "javascript",
+    "js"
+  ],
+  "author": "alejandro galaz",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.6.4",
+    "@babel/node": "^7.6.3",
+    "@babel/preset-env": "^7.4.2",
+    "@babel/register": "^7.4.0",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.17.5"
+  },
+  "bugs": {
+    "url": "https://github.com/alejandrogalaz21/node-babel-server-/issues"
+  },
+  "homepage": "https://github.com/alejandrogalaz21/node-babel-server-#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  }
+}

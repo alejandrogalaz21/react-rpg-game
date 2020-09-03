@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Map from './../Map/Map'
 import Player from './../Player/Player'
 import styled from '@emotion/styled'
+import { socket } from './../../socket'
 
 const WorldArea = styled.div`
   position: relative;
@@ -11,10 +12,21 @@ const WorldArea = styled.div`
 `
 
 const World = () => {
+  const [players, setPlayers] = useState([])
+
+  useEffect(() => {
+    socket.on('new_connection', connections => {
+      debugger
+      setPlayers(connections)
+    })
+  }, [players])
+
   return (
     <WorldArea>
       <Map />
-      <Player />
+      {players.map(player => (
+        <Player key={player} />
+      ))}
     </WorldArea>
   )
 }

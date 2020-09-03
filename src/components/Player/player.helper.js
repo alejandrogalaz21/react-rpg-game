@@ -1,4 +1,6 @@
-export function getNewPosition(direction, oldPos, SPRITE_SIZE) {
+import { SPRITE_SIZE } from './../../config'
+
+export function getNewPosition(direction, oldPos) {
   switch (direction) {
     case 'LEFT':
       return [oldPos[0] - SPRITE_SIZE, oldPos[1]]
@@ -12,3 +14,5 @@ export function getNewPosition(direction, oldPos, SPRITE_SIZE) {
       return oldPos
   }
 }
+
+export function observeBoundaries(oldPos, newPos) {}

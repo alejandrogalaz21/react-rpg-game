@@ -16,21 +16,20 @@ const Player = ({ position, ...props }) => {
   // handle key's
   function handleKeyDown(event) {
     event.preventDefault()
-    const SPRITE_SIZE = 40
     const oldPos = store.getState().player.position
     switch (event.keyCode) {
       // left
       case 37:
-        return props.dispatchMove(getNewPosition('LEFT', oldPos, SPRITE_SIZE))
+        return props.dispatchMove(getNewPosition('LEFT', oldPos))
       // up
       case 38:
-        return props.dispatchMove(getNewPosition('UP', oldPos, SPRITE_SIZE))
+        return props.dispatchMove(getNewPosition('UP', oldPos))
       // right
       case 39:
-        return props.dispatchMove(getNewPosition('RIGHT', oldPos, SPRITE_SIZE))
+        return props.dispatchMove(getNewPosition('RIGHT', oldPos))
       // Down
       case 40:
-        return props.dispatchMove(getNewPosition('DOWN', oldPos, SPRITE_SIZE))
+        return props.dispatchMove(getNewPosition('DOWN', oldPos))
       default:
         return console.log(event.keyCode)
     }
