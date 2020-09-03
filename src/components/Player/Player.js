@@ -2,65 +2,39 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import walkSprite from './player_walk.png'
 import { store } from '../../App'
-
-function dispatchMove(position) {
-  return {
-    type: 'MOVE_PLAYER',
-    payload: { position }
-  }
-}
+import { dispatchMove } from './player.redux'
+import { getNewPosition } from './player.helper'
 
 const Player = ({ position, ...props }) => {
-  const SPRITE_SIZE = 40
-  function getNewPosition(direction) {
-    const oldPos = store.getState().player.position
-
-    switch (direction) {
-      case 'LEFT':
-        return [oldPos[0] - SPRITE_SIZE, oldPos[1]]
-      case 'RIGHT':
-        return [oldPos[0] + SPRITE_SIZE, oldPos[1]]
-      case 'UP':
-        return [oldPos[0], oldPos[1] - SPRITE_SIZE]
-      case 'DOWN':
-        return [oldPos[0], oldPos[1] + SPRITE_SIZE]
-      default:
-        return oldPos
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
     }
-  }
+  }, [])
 
   // handle key's
   function handleKeyDown(event) {
     event.preventDefault()
-
+    const SPRITE_SIZE = 40
+    const oldPos = store.getState().player.position
     switch (event.keyCode) {
       // left
       case 37:
-        console.log('left')
-        return props.dispatchMove(getNewPosition('LEFT'))
+        return props.dispatchMove(getNewPosition('LEFT', oldPos, SPRITE_SIZE))
       // up
       case 38:
-        console.log('up')
-        return props.dispatchMove(getNewPosition('UP'))
+        return props.dispatchMove(getNewPosition('UP', oldPos, SPRITE_SIZE))
       // right
       case 39:
-        console.log('right')
-        return props.dispatchMove(getNewPosition('RIGHT'))
+        return props.dispatchMove(getNewPosition('RIGHT', oldPos, SPRITE_SIZE))
       // Down
       case 40:
-        console.log('down')
-        return props.dispatchMove(getNewPosition('DOWN'))
+        return props.dispatchMove(getNewPosition('DOWN', oldPos, SPRITE_SIZE))
       default:
         return console.log(event.keyCode)
     }
   }
-
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown)
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [])
 
   return (
     <div
