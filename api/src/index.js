@@ -10,7 +10,7 @@ let players = []
 
 io.on('connection', function (socket) {
   console.log('new connection')
-  console.log({ socket })
+  console.log(socket.id)
 
   players.push({
     id: socket.id,
@@ -18,6 +18,12 @@ io.on('connection', function (socket) {
   })
 
   io.emit('new_connection', players)
+
+  socket.on('disconnect', data => {
+    console.log('socket disconnect')
+    console.log(socket.id)
+    players = players.filter(player => player.id !== socket.id)
+  })
 })
 
 app.get('/', (req, res) => {

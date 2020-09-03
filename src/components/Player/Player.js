@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import walkSprite from './player_walk.png'
 import { store } from '../../App'
 import { dispatchMove } from './player.redux'
-import { getNewPosition } from './player.helper'
+import { getNewPosition, observeBoundaries } from './player.helper'
 
 const Player = ({ position, ...props }) => {
   useEffect(() => {
@@ -17,21 +17,36 @@ const Player = ({ position, ...props }) => {
   function handleKeyDown(event) {
     event.preventDefault()
     const oldPos = store.getState().player.position
+    let newPos = null
+    let position = null
     switch (event.keyCode) {
       // left
       case 37:
-        return props.dispatchMove(getNewPosition('LEFT', oldPos))
+        newPos = getNewPosition('LEFT', oldPos)
+        position = observeBoundaries(newPos, oldPos)
+        props.dispatchMove(position)
+        break
       // up
       case 38:
-        return props.dispatchMove(getNewPosition('UP', oldPos))
+        newPos = getNewPosition('UP', oldPos)
+        position = observeBoundaries(newPos, oldPos)
+        props.dispatchMove(position)
+        break
       // right
       case 39:
-        return props.dispatchMove(getNewPosition('RIGHT', oldPos))
+        newPos = getNewPosition('RIGHT', oldPos)
+        position = observeBoundaries(newPos, oldPos)
+        props.dispatchMove(position)
+        break
       // Down
       case 40:
-        return props.dispatchMove(getNewPosition('DOWN', oldPos))
+        newPos = getNewPosition('DOWN', oldPos)
+        position = observeBoundaries(newPos, oldPos)
+        props.dispatchMove(position)
+        break
       default:
-        return console.log(event.keyCode)
+        console.log(event.keyCode)
+        break
     }
   }
 
