@@ -21,17 +21,16 @@ io.on('connection', function (socket) {
   io.emit('new_connection', players)
 
   socket.on('movement', position => {
-    console.log(`* ${socket.id} has moved to [${position[0]}, ${position[1]}]`)
+    console.log(`* ${socket.id} has moved to [${position}]`)
     players = players.map(player =>
       player.id === socket.id ? { ...player, position } : player
     )
-    socket.broadcast.emit('movement', players)
+    socket.broadcast.emit('movement', { id: socket.id, position })
   })
 
   socket.on('disconnect', () => {
     console.log('- Disconnected ' + socket.id)
     players = players.filter(player => player.id !== socket.id)
-    console.log(players)
     io.emit('disconnection', socket.id)
   })
 })

@@ -15,24 +15,28 @@ const WorldArea = styled.div`
 const World = () => {
   const [players, setPlayers] = useState([])
 
+  const getPlayers = () => players
+
   useEffect(() => {
     socket.on('new_connection', connections => {
       setPlayers(connections.filter(con => con.id !== socket.id))
     })
 
     socket.on('disconnection', id => {
-      const filtered = players.filter(player => player.id !== id)
+      const filtered = getPlayers().filter(player => player.id !== id)
       setPlayers(filtered)
     })
 
-    socket.on('movement', players => {
-      setPlayers(players.filter(con => con.id !== socket.id))
+    socket.on('movement', player => {
+      const updated = getPlayers().map(p => (p.id === player.id ? player : p))
+      console.log({ updated })
+      setPlayers(updated)
     })
   }, [players])
 
-  // useEffect(() => {
-  //   console.log({ players })
-  // }, [players])
+  useEffect(() => {
+    console.log({ players })
+  }, [players])
 
   return (
     <WorldArea>

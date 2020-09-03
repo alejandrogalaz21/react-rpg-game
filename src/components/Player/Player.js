@@ -2,9 +2,9 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { store } from '../../App'
 import { dispatchMove } from './player.redux'
-import { getNewPosition } from './player.helper'
 import { socket } from '../../socket'
 import Sprite from './Sprite'
+import { getNewPosition, observeBoundaries } from './player.helper'
 
 const Player = ({ position, ...props }) => {
   useEffect(() => {
@@ -22,9 +22,10 @@ const Player = ({ position, ...props }) => {
     const direction = moves[event.keyCode - 37]
 
     if (direction) {
-      const newPosition = getNewPosition(direction, oldPos)
-      socket.emit('movement', newPosition)
-      props.dispatchMove(newPosition)
+      const newPos = getNewPosition(direction, oldPos)
+      const limitedPos = observeBoundaries(newPos, oldPos)
+      socket.emit('movement', limitedPos)
+      props.dispatchMove(limitedPos)
     }
   }
 
