@@ -16,7 +16,6 @@ const World = () => {
 
   useEffect(() => {
     socket.on('new_connection', connections => {
-      debugger
       setPlayers(connections)
     })
   }, [players])

@@ -3,17 +3,13 @@ import { SPRITE_SIZE, MAP_WIDTH, MAP_HEIGHT } from './../../config'
 export function getNewPosition(direction, oldPos) {
   switch (direction) {
     case 'LEFT':
-      let newPosLeft = [oldPos[0] - SPRITE_SIZE, oldPos[1]]
-      return observeBoundaries(newPosLeft, oldPos)
+      return observeBoundaries([oldPos[0] - SPRITE_SIZE, oldPos[1]], oldPos)
     case 'RIGHT':
-      let newPosRIGHT = [oldPos[0] + SPRITE_SIZE, oldPos[1]]
-      return observeBoundaries(newPosRIGHT, oldPos)
+      return observeBoundaries([oldPos[0] + SPRITE_SIZE, oldPos[1]], oldPos)
     case 'UP':
-      let newPosUP = [oldPos[0], oldPos[1] - SPRITE_SIZE]
-      return observeBoundaries(newPosUP, oldPos)
+      return observeBoundaries([oldPos[0], oldPos[1] - SPRITE_SIZE], oldPos)
     case 'DOWN':
-      let newPosDOWN = [oldPos[0], oldPos[1] + SPRITE_SIZE]
-      return observeBoundaries(newPosDOWN, oldPos)
+      return observeBoundaries([oldPos[0], oldPos[1] + SPRITE_SIZE], oldPos)
     default:
       return oldPos
   }
