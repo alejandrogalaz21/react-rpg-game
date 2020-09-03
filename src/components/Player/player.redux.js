@@ -12,3 +12,10 @@ export function player(state = initialState, action) {
       return state
   }
 }
+
+export function dispatchMove(position) {
+  return {
+    type: 'MOVE_PLAYER',
+    payload: { position }
+  }
+}

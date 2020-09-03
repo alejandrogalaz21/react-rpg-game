@@ -1,13 +1,40 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import walkSprite from './player_walk.png'
-import { handleMovement } from './move'
+import { store } from '../../App'
+import { dispatchMove } from './player.redux'
+import { getNewPosition } from './player.helper'
 
-const Player = ({ position }) => {
+const Player = ({ position, ...props }) => {
   useEffect(() => {
-    console.log(position)
-    return () => {}
-  }, [position])
+    document.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [])
+
+  // handle key's
+  function handleKeyDown(event) {
+    event.preventDefault()
+    const SPRITE_SIZE = 40
+    const oldPos = store.getState().player.position
+    switch (event.keyCode) {
+      // left
+      case 37:
+        return props.dispatchMove(getNewPosition('LEFT', oldPos, SPRITE_SIZE))
+      // up
+      case 38:
+        return props.dispatchMove(getNewPosition('UP', oldPos, SPRITE_SIZE))
+      // right
+      case 39:
+        return props.dispatchMove(getNewPosition('RIGHT', oldPos, SPRITE_SIZE))
+      // Down
+      case 40:
+        return props.dispatchMove(getNewPosition('DOWN', oldPos, SPRITE_SIZE))
+      default:
+        return console.log(event.keyCode)
+    }
+  }
 
   return (
     <div
@@ -24,10 +51,9 @@ const Player = ({ position }) => {
   )
 }
 
-const mapStateToProps = ({ player }) => ({
-  ...player
-})
+const mapStateToProps = ({ player }) => ({ ...player })
+const mapDispatchToProps = {
+  dispatchMove: dispatchMove
+}
 
-const mapDispatchToProps = {}
-
-export default connect(mapStateToProps, mapDispatchToProps)(handleMovement(Player))
+export default connect(mapStateToProps, mapDispatchToProps)(Player)
