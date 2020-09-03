@@ -3,6 +3,7 @@ import Map from './../Map/Map'
 import Player from './../Player/Player'
 import styled from '@emotion/styled'
 import { socket } from './../../socket'
+import Sprite from '../Player/Sprite'
 
 const WorldArea = styled.div`
   position: relative;
@@ -16,16 +17,29 @@ const World = () => {
 
   useEffect(() => {
     socket.on('new_connection', connections => {
-      debugger
-      setPlayers(connections)
+      setPlayers(connections.filter(con => con.id !== socket.id))
+    })
+
+    socket.on('disconnection', id => {
+      const filtered = players.filter(player => player.id !== id)
+      setPlayers(filtered)
+    })
+
+    socket.on('movement', players => {
+      setPlayers(players.filter(con => con.id !== socket.id))
     })
   }, [players])
+
+  // useEffect(() => {
+  //   console.log({ players })
+  // }, [players])
 
   return (
     <WorldArea>
       <Map />
+      <Player />
       {players.map(player => (
-        <Player key={player} />
+        <Sprite key={player} position={player.position} />
       ))}
     </WorldArea>
   )

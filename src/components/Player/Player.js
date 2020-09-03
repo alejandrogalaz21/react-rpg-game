@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import walkSprite from './player_walk.png'
 import { store } from '../../App'
 import { dispatchMove } from './player.redux'
 import { getNewPosition } from './player.helper'
+import { socket } from '../../socket'
+import Sprite from './Sprite'
 
 const Player = ({ position, ...props }) => {
   useEffect(() => {
@@ -13,46 +14,24 @@ const Player = ({ position, ...props }) => {
     }
   }, [])
 
-  // handle key's
+  // Handle key's
   function handleKeyDown(event) {
     event.preventDefault()
     const oldPos = store.getState().player.position
-    switch (event.keyCode) {
-      // left
-      case 37:
-        return props.dispatchMove(getNewPosition('LEFT', oldPos))
-      // up
-      case 38:
-        return props.dispatchMove(getNewPosition('UP', oldPos))
-      // right
-      case 39:
-        return props.dispatchMove(getNewPosition('RIGHT', oldPos))
-      // Down
-      case 40:
-        return props.dispatchMove(getNewPosition('DOWN', oldPos))
-      default:
-        return console.log(event.keyCode)
+    const moves = ['LEFT', 'UP', 'RIGHT', 'DOWN']
+    const direction = moves[event.keyCode - 37]
+
+    if (direction) {
+      const newPosition = getNewPosition(direction, oldPos)
+      socket.emit('movement', newPosition)
+      props.dispatchMove(newPosition)
     }
   }
 
-  return (
-    <div
-      style={{
-        position: 'absolute',
-        top: position[1],
-        left: position[0],
-        backgroundImage: `url(${walkSprite})`,
-        backgroundPosition: '0 0',
-        width: '40px',
-        height: '40px'
-      }}
-    />
-  )
+  return <Sprite position={position} />
 }
 
 const mapStateToProps = ({ player }) => ({ ...player })
-const mapDispatchToProps = {
-  dispatchMove: dispatchMove
-}
+const mapDispatchToProps = { dispatchMove: dispatchMove }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Player)
