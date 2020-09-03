@@ -12,7 +12,10 @@ io.on('connection', function (socket) {
   console.log('new connection')
   console.log({ socket })
 
-  players.push(socket)
+  players.push({
+    id: socket.id,
+    position: [0, 0]
+  })
 
   io.emit('new_connection', players)
 })

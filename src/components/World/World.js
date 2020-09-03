@@ -25,7 +25,7 @@ const World = () => {
     <WorldArea>
       <Map />
       {players.map(player => (
-        <Player />
+        <Player key={player} />
       ))}
     </WorldArea>
   )
