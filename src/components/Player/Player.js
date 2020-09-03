@@ -24,7 +24,7 @@ const Player = ({ position, ...props }) => {
     if (direction) {
       const newPos = getNewPosition(direction, oldPos)
       const limitedPos = observeBoundaries(newPos, oldPos)
-      socket.emit('movement', limitedPos)
+      socket.emit('update_player', limitedPos)
       props.dispatchMove(limitedPos)
     }
   }
