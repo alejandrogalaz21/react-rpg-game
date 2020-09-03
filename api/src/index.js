@@ -11,27 +11,20 @@ let players = []
 io.on('connection', function (socket) {
   console.log('+ New connection ' + socket.id)
 
-  players.push({
-    id: socket.id,
-    position: [0, 0]
-  })
+  players.push({ id: socket.id, position: [0, 0] })
 
-  console.log(players)
+  io.emit('connect_player', players)
 
-  io.emit('new_connection', players)
-
-  socket.on('movement', position => {
+  socket.on('update_player', position => {
     console.log(`* ${socket.id} has moved to [${position}]`)
-    players = players.map(player =>
-      player.id === socket.id ? { ...player, position } : player
-    )
-    socket.broadcast.emit('movement', { id: socket.id, position })
+    players = players.map(p => (p.id === socket.id ? { ...p, position } : p))
+    socket.broadcast.emit('update_player', { id: socket.id, position })
   })
 
   socket.on('disconnect', () => {
     console.log('- Disconnected ' + socket.id)
     players = players.filter(player => player.id !== socket.id)
-    io.emit('disconnection', socket.id)
+    io.emit('disconnect_player', socket.id)
   })
 })
 
