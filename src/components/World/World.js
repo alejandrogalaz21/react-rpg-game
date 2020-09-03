@@ -26,16 +26,16 @@ const World = ({ players, ...props }) => {
     <WorldArea>
       <Map />
       <Player />
-      {players
-        .filter(player => player.id !== socket.id)
-        .map(player => (
-          <Sprite key={player} position={player.position} />
-        ))}
+      {players.map(player => (
+        <Sprite key={player} position={player.position} />
+      ))}
     </WorldArea>
   )
 }
 
-const mapStateToProps = ({ players }) => ({ players })
+const mapStateToProps = ({ players }) => ({
+  players: players.filter(({ id }) => id !== socket.id)
+})
 const mapDispatchToProps = { connectPlayer, updatePlayer, disconnectPlayer }
 const withConnect = connect(mapStateToProps, mapDispatchToProps)
 export default withConnect(World)
