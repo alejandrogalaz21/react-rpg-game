@@ -15,7 +15,8 @@
     "react-redux": "^7.2.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "socket.io-client": "^2.3.0"
   },
   "scripts": {
     "start": "env REACT_APP_ENV=develop react-scripts start",
@@ -40,5 +41,6 @@
   },
   "devDependencies": {
     "redux-devtools-extension": "^2.13.8"
-  }
+  },
+  "proxy": "http://localhost:5000"
 }
