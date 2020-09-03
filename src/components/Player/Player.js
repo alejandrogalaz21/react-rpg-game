@@ -36,28 +36,25 @@ const Player = ({ position, ...props }) => {
     switch (event.keyCode) {
       // left
       case 37:
-        console.log('left')
         return props.dispatchMove(getNewPosition('LEFT'))
       // up
       case 38:
-        console.log('up')
         return props.dispatchMove(getNewPosition('UP'))
       // right
       case 39:
-        console.log('right')
         return props.dispatchMove(getNewPosition('RIGHT'))
       // Down
       case 40:
-        console.log('down')
         return props.dispatchMove(getNewPosition('DOWN'))
       default:
         return console.log(event.keyCode)
     }
   }
 
-  window.addEventListener('keydown', event => {
-    handleKeyDown(event)
-  })
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [])
 
   return (
     <div
