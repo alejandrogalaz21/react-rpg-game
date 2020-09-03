@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import Map from './../Map/Map'
-import Player from './../Player/Player'
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
 import styled from '@emotion/styled'
-import { socket } from './../../socket'
+
+import Map from './../Map/Map'
 import Sprite from '../Player/Sprite'
+import Player from './../Player/Player'
+import { socket } from './../../socket'
+import { connectPlayer, updatePlayer, disconnectPlayer } from './../Player/players.redux'
 
 const WorldArea = styled.div`
   position: relative;
@@ -12,41 +15,27 @@ const WorldArea = styled.div`
   margin: 20px auto;
 `
 
-const World = () => {
-  const [players, setPlayers] = useState([])
-
-  const getPlayers = () => players
-
+const World = ({ players, ...props }) => {
   useEffect(() => {
-    socket.on('new_connection', connections => {
-      setPlayers(connections.filter(con => con.id !== socket.id))
-    })
-
-    socket.on('disconnection', id => {
-      const filtered = getPlayers().filter(player => player.id !== id)
-      setPlayers(filtered)
-    })
-
-    socket.on('movement', player => {
-      const updated = getPlayers().map(p => (p.id === player.id ? player : p))
-      console.log({ updated })
-      setPlayers(updated)
-    })
-  }, [players])
-
-  useEffect(() => {
-    console.log({ players })
-  }, [players])
+    socket.on('connect_player', props.connectPlayer)
+    socket.on('update_player', props.updatePlayer)
+    socket.on('disconnect_player', props.disconnectPlayer)
+  }, [])
 
   return (
     <WorldArea>
       <Map />
       <Player />
-      {players.map(player => (
-        <Sprite key={player} position={player.position} />
-      ))}
+      {players
+        .filter(player => player.id !== socket.id)
+        .map(player => (
+          <Sprite key={player} position={player.position} />
+        ))}
     </WorldArea>
   )
 }
 
-export default World
+const mapStateToProps = ({ players }) => ({ players })
+const mapDispatchToProps = { connectPlayer, updatePlayer, disconnectPlayer }
+const withConnect = connect(mapStateToProps, mapDispatchToProps)
+export default withConnect(World)
