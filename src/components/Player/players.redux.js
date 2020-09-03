@@ -5,7 +5,7 @@ export function players(state = INITIAL_STATE, { type, payload }) {
     case 'CONNECT_PLAYER':
       return [...payload]
     case 'DISCONNECT_PLAYER':
-      const index = state.findIndex(p => p.id === payload.id)
+      const index = state.findIndex(p => p.id === payload)
       return [...state.slice(0, index), ...state.slice(index + 1)]
     case 'UPDATE_PLAYER':
       const player = payload
