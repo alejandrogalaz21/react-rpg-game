@@ -11,6 +11,7 @@ export function player(state = INITIAL_STATE, action) {
   }
 }
 
-export function dispatchMove(position) {
+export function dispatchMove(position, cb) {
+  cb()
   return { type: 'MOVE_PLAYER', payload: { position } }
 }

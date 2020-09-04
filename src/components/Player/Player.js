@@ -5,7 +5,7 @@ import { store } from '../../App'
 import { dispatchMove } from './player.redux'
 import { socket } from '../../socket'
 import Sprite from './Sprite'
-import { getNewPosition, observeBoundaries } from './player.helper'
+import { getNewPosition, observeBoundaries, getDirection } from './player.helper'
 
 const Player = ({ position, ...props }) => {
   useEffect(() => {
@@ -19,14 +19,10 @@ const Player = ({ position, ...props }) => {
   function handleKeyDown(event) {
     event.preventDefault()
     const oldPos = store.getState().player.position
-    const moves = ['LEFT', 'UP', 'RIGHT', 'DOWN']
-    const direction = moves[event.keyCode - 37]
-
+    const direction = getDirection(event.keyCode)
     if (direction) {
-      const newPos = getNewPosition(direction, oldPos)
-      const limitedPos = observeBoundaries(newPos, oldPos)
-      socket.emit('update_player', limitedPos)
-      props.dispatchMove(limitedPos)
+      const newPos = observeBoundaries(getNewPosition(direction, oldPos), oldPos)
+      props.dispatchMove(newPos, () => socket.emit('update_player', newPos))
     }
   }
 
