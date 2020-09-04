@@ -7,7 +7,7 @@ import MapRow from './MapRow'
 const MapArea = styled.div`
   width: 800px;
   height: 400px;
-  background-color: green;
+  background-color: #28c76f;
   border: 4px solid white;
   margin: 10px auto;
 `

@@ -7,18 +7,30 @@ import { SPRITE_SIZE } from './../../config'
 function MapCell({ cell }) {
   function getCellSprite(sprite) {
     switch (sprite) {
+      case 0:
+        return {
+          width: SPRITE_SIZE,
+          height: SPRITE_SIZE,
+          backgroundColor: ' #28c76f'
+        }
       case 1:
         return {
           width: SPRITE_SIZE,
           height: SPRITE_SIZE,
-          backgroundColor: '#32ccbc'
+          backgroundColor: '#0396ff'
+        }
+      case 2:
+        return {
+          width: SPRITE_SIZE,
+          height: SPRITE_SIZE,
+          backgroundColor: '#7367f0'
         }
 
       default:
         return {
           width: SPRITE_SIZE,
           height: SPRITE_SIZE,
-          backgroundColor: '#28c76f'
+          backgroundColor: ' #ce9ffc'
         }
     }
   }
@@ -27,7 +39,7 @@ function MapCell({ cell }) {
 }
 
 const Row = styled.div`
-  border: 4px solid #7367f0;
+  border: 4px solid #f5f5f5df;
 `
 
 function MapRow({ cells }) {
