@@ -25,7 +25,6 @@ export function observeBoundaries(newPos, oldPos) {
 }
 
 export function getDirection(keyCode) {
-  debugger
   const directions = ['LEFT', 'UP', 'RIGHT', 'DOWN']
   if (keyCode !== 37 && keyCode !== 38 && keyCode !== 39 && keyCode !== 40) {
     return directions[0]
