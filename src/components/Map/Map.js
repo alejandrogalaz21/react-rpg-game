@@ -5,11 +5,12 @@ import { tiles } from './tiles'
 import MapRow from './MapRow'
 
 const MapArea = styled.div`
+  position: relative;
+  top: 0px;
+  left: 0px;
   width: 800px;
   height: 400px;
-  background-color: #28c76f;
   border: 4px solid white;
-  margin: 10px auto;
 `
 
 export const Map = ({ tiles }) => {
