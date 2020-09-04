@@ -1,21 +1,16 @@
-const initialState = {
+const INITIAL_STATE = {
   position: [0, 0]
 }
 
-export function player(state = initialState, action) {
+export function player(state = INITIAL_STATE, action) {
   switch (action.type) {
     case 'MOVE_PLAYER':
-      return {
-        ...action.payload
-      }
+      return { ...action.payload }
     default:
       return state
   }
 }
 
 export function dispatchMove(position) {
-  return {
-    type: 'MOVE_PLAYER',
-    payload: { position }
-  }
+  return { type: 'MOVE_PLAYER', payload: { position } }
 }

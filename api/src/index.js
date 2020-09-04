@@ -9,25 +9,23 @@ const io = socketIo(server)
 let players = []
 
 io.on('connection', function (socket) {
-  console.log('new connection')
-  console.log(socket.id)
+  console.log('+ New connection ' + socket.id)
 
-  players.push({
-    id: socket.id,
-    position: [0, 0]
+  players.push({ id: socket.id, position: [0, 0] })
+
+  io.emit('connect_player', players)
+
+  socket.on('update_player', position => {
+    console.log(`* ${socket.id} has moved to [${position}]`)
+    players = players.map(p => (p.id === socket.id ? { ...p, position } : p))
+    socket.broadcast.emit('update_player', { id: socket.id, position })
   })
 
-  io.emit('new_connection', players)
-
-  socket.on('disconnect', data => {
-    console.log('socket disconnect')
-    console.log(socket.id)
+  socket.on('disconnect', () => {
+    console.log('- Disconnected ' + socket.id)
     players = players.filter(player => player.id !== socket.id)
+    io.emit('disconnect_player', socket.id)
   })
-})
-
-app.get('/', (req, res) => {
-  res.send('<h1>Hello world</h1>')
 })
 
 server.listen(5000, () => {

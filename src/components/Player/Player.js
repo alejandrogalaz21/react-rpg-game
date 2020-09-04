@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import walkSprite from './player_walk.png'
 import { store } from '../../App'
 import { dispatchMove } from './player.redux'
+import { socket } from '../../socket'
+import Sprite from './Sprite'
 import { getNewPosition, observeBoundaries } from './player.helper'
 
 const Player = ({ position, ...props }) => {
@@ -13,61 +15,25 @@ const Player = ({ position, ...props }) => {
     }
   }, [])
 
-  // handle key's
+  // Handle key's
   function handleKeyDown(event) {
     event.preventDefault()
     const oldPos = store.getState().player.position
-    let newPos = null
-    let position = null
-    switch (event.keyCode) {
-      // left
-      case 37:
-        newPos = getNewPosition('LEFT', oldPos)
-        position = observeBoundaries(newPos, oldPos)
-        props.dispatchMove(position)
-        break
-      // up
-      case 38:
-        newPos = getNewPosition('UP', oldPos)
-        position = observeBoundaries(newPos, oldPos)
-        props.dispatchMove(position)
-        break
-      // right
-      case 39:
-        newPos = getNewPosition('RIGHT', oldPos)
-        position = observeBoundaries(newPos, oldPos)
-        props.dispatchMove(position)
-        break
-      // Down
-      case 40:
-        newPos = getNewPosition('DOWN', oldPos)
-        position = observeBoundaries(newPos, oldPos)
-        props.dispatchMove(position)
-        break
-      default:
-        console.log(event.keyCode)
-        break
+    const moves = ['LEFT', 'UP', 'RIGHT', 'DOWN']
+    const direction = moves[event.keyCode - 37]
+
+    if (direction) {
+      const newPos = getNewPosition(direction, oldPos)
+      const limitedPos = observeBoundaries(newPos, oldPos)
+      socket.emit('update_player', limitedPos)
+      props.dispatchMove(limitedPos)
     }
   }
 
-  return (
-    <div
-      style={{
-        position: 'absolute',
-        top: position[1],
-        left: position[0],
-        backgroundImage: `url(${walkSprite})`,
-        backgroundPosition: '0 0',
-        width: '40px',
-        height: '40px'
-      }}
-    />
-  )
+  return <Sprite position={position} />
 }
 
 const mapStateToProps = ({ player }) => ({ ...player })
-const mapDispatchToProps = {
-  dispatchMove: dispatchMove
-}
+const mapDispatchToProps = { dispatchMove: dispatchMove }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Player)
