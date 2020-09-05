@@ -33,7 +33,11 @@ const World = ({ players, ...props }) => {
       <Map />
       <Player />
       {players.map(player => (
-        <Sprite key={player} position={player.position} />
+        <Sprite
+          key={player}
+          position={player.position}
+          spriteLocation={player.spriteLocation}
+        />
       ))}
     </WorldArea>
   )
