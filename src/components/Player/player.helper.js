@@ -2,7 +2,7 @@ import player from 'play-sound'
 import stop from './../../sounds/stop.wav'
 import jump from './../../sounds/jump.wav'
 import step from './../../sounds/step.wav'
-import { SPRITE_SIZE, MAP_WIDTH, MAP_HEIGHT } from './../../config'
+import { SPRITE_SIZE } from './../../config'
 
 const p = player()
 
@@ -22,7 +22,7 @@ export function getNewPosition(keyCode, oldPos) {
   }
 }
 
-export function observeBoundaries(newPos) {
+export function observeBoundaries(newPos, MAP_WIDTH, MAP_HEIGHT) {
   return (
     newPos[0] >= 0 &&
     newPos[0] <= MAP_WIDTH - SPRITE_SIZE &&
@@ -46,8 +46,8 @@ export function observeCell(newPos, matrix) {
   return nextCel === 0
 }
 
-export function atteemptMove(newPos, oldPos, matrix) {
-  if (observeBoundaries(newPos) && observeCell(newPos, matrix)) {
+export function atteemptMove(newPos, oldPos, matrix, MAP_WIDTH, MAP_HEIGHT) {
+  if (observeBoundaries(newPos, MAP_WIDTH, MAP_HEIGHT) && observeCell(newPos, matrix)) {
     new Audio(step).play()
     return newPos
   }

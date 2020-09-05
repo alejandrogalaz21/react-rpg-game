@@ -13,7 +13,7 @@ import {
   getWalkIndex
 } from './player.helper'
 
-const Player = ({ position, spriteLocation, matrix, ...props }) => {
+const Player = ({ position, spriteLocation, matrix, width, height, ...props }) => {
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown)
     return () => {
@@ -33,7 +33,7 @@ const Player = ({ position, spriteLocation, matrix, ...props }) => {
     const newSpriteLocation = getSpriteLocation(direction, newWalkIndex)
     const newPos = getNewPosition(event.keyCode, oldPos)
     // set value's
-    const poss = atteemptMove(newPos, oldPos, matrix)
+    const poss = atteemptMove(newPos, oldPos, matrix, width, height)
     props.dispatchMove(poss, direction, newSpriteLocation, newWalkIndex, () =>
       socket.emit('update_player', {
         position: poss,
