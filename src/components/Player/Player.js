@@ -5,9 +5,9 @@ import { store } from '../../App'
 import { dispatchMove } from './player.redux'
 import { socket } from '../../socket'
 import Sprite from './Sprite'
-import { getNewPosition, observeBoundaries, getDirection } from './player.helper'
+import { getNewPosition, atteemptMove, getDirection } from './player.helper'
 
-const Player = ({ position, ...props }) => {
+const Player = ({ position, matrix, ...props }) => {
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown)
     return () => {
@@ -19,17 +19,15 @@ const Player = ({ position, ...props }) => {
   function handleKeyDown(event) {
     event.preventDefault()
     const oldPos = store.getState().player.position
-    const direction = getDirection(event.keyCode)
-    if (direction) {
-      const newPos = observeBoundaries(getNewPosition(direction, oldPos), oldPos)
-      props.dispatchMove(newPos, () => socket.emit('update_player', newPos))
-    }
+    const newPos = getNewPosition(event.keyCode, oldPos)
+    const poss = atteemptMove(newPos, oldPos, matrix)
+    props.dispatchMove(poss, () => socket.emit('update_player', poss))
   }
 
   return <Sprite position={position} />
 }
 
-const mapStateToProps = ({ player }) => ({ ...player })
+const mapStateToProps = ({ player, map }) => ({ ...player, ...map })
 const mapDispatchToProps = { dispatchMove: dispatchMove }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Player)

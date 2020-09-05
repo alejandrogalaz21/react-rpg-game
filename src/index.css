@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
 
+*,
+::after,
+::before {
+  box-sizing: content-box;
+}
+
 :root {
   --main-bg-color: #fdfdfd;
   --bg-white: #ffffff;
@@ -18,9 +24,10 @@
 }
 
 body {
-  /* margin: 0;
+  margin: 0;
   font-family: 'Roboto', sans-serif;
-  background-color: var(--main-bg-color); */
+  background-color: var(--bg-yellow);
+  line-height: 0;
 }
 
 main > .container {
