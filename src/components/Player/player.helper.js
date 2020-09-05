@@ -54,3 +54,20 @@ export function atteemptMove(newPos, oldPos, matrix) {
   new Audio(stop).play()
   return oldPos
 }
+
+export function getSpriteLocation(direction, walkIndex) {
+  switch (direction) {
+    case 'DOWN':
+      return `${SPRITE_SIZE * walkIndex}px ${SPRITE_SIZE * 0}px`
+    case 'RIGHT':
+      return `${SPRITE_SIZE * walkIndex}px ${SPRITE_SIZE * 1}px`
+    case 'LEFT':
+      return `${SPRITE_SIZE * walkIndex}px ${SPRITE_SIZE * 2}px`
+    case 'UP':
+      return `${SPRITE_SIZE * walkIndex}px ${SPRITE_SIZE * 3}px`
+    default:
+      return '0px 0px'
+  }
+}
+
+export const getWalkIndex = walkIndex => (walkIndex >= 8 ? 0 : walkIndex + 1)

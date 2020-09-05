@@ -1,7 +1,8 @@
 const INITIAL_STATE = {
   position: [0, 0],
   direction: '',
-  spriteLocation: '0px 0px'
+  spriteLocation: '0px 0px',
+  walkIndex: 0
 }
 
 export function player(state = INITIAL_STATE, action) {
@@ -13,7 +14,7 @@ export function player(state = INITIAL_STATE, action) {
   }
 }
 
-export function dispatchMove(position, direction, cb) {
+export function dispatchMove(position, direction, spriteLocation, walkIndex, cb) {
   cb()
-  return { type: 'MOVE_PLAYER', payload: { position, direction } }
+  return { type: 'MOVE_PLAYER', payload: { position, direction, spriteLocation, walkIndex } }
 }
