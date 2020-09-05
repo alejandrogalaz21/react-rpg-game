@@ -1,6 +1,6 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import styled from '@emotion/styled'
-import { tiles } from './tiles'
 
 import MapRow from './MapRow'
 
@@ -13,18 +13,18 @@ const MapArea = styled.div`
   border: 4px solid white;
 `
 
-export const Map = ({ tiles }) => {
+export const Map = ({ matrix, ...props }) => {
   return (
     <MapArea>
-      {tiles.map(tile => (
-        <MapRow cells={tile} />
+      {matrix.map(row => (
+        <MapRow cells={row} />
       ))}
     </MapArea>
   )
 }
 
-Map.defaultProps = {
-  tiles
-}
+const mapStateToProps = ({ map }) => ({ ...map })
 
-export default Map
+const mapDispatchToProps = {}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Map)

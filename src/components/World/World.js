@@ -9,6 +9,8 @@ import Player from './../Player/Player'
 import { socket } from './../../socket'
 import { connectPlayer, updatePlayer, disconnectPlayer } from './../Player/players.redux'
 
+import newSound from './../../sounds/new.wav'
+
 const WorldArea = styled.div`
   position: relative;
   width: 800px;
@@ -18,7 +20,10 @@ const WorldArea = styled.div`
 
 const World = ({ players, ...props }) => {
   useEffect(() => {
-    socket.on('connect_player', props.connectPlayer)
+    socket.on('connect_player', payload => {
+      new Audio(newSound).play()
+      props.connectPlayer(payload)
+    })
     socket.on('update_player', props.updatePlayer)
     socket.on('disconnect_player', props.disconnectPlayer)
   }, [])
