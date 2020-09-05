@@ -18,10 +18,12 @@ const Player = ({ position, matrix, ...props }) => {
   // Handle key's
   function handleKeyDown(event) {
     event.preventDefault()
+    const direction = getDirection(event.keyCode)
     const oldPos = store.getState().player.position
     const newPos = getNewPosition(event.keyCode, oldPos)
+
     const poss = atteemptMove(newPos, oldPos, matrix)
-    props.dispatchMove(poss, () => socket.emit('update_player', poss))
+    props.dispatchMove(poss, direction, () => socket.emit('update_player', poss))
   }
 
   return <Sprite position={position} />
