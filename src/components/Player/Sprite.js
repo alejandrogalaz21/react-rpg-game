@@ -1,7 +1,7 @@
 import React from 'react'
 import defaultSprite from './player_walk.png'
 
-export default function Sprite({ sprite, position }) {
+export default function Sprite({ sprite, position, spriteLocation }) {
   return (
     <div
       style={{
@@ -9,7 +9,7 @@ export default function Sprite({ sprite, position }) {
         top: position[1],
         left: position[0],
         backgroundImage: `url(${sprite})`,
-        backgroundPosition: '0 0',
+        backgroundPosition: spriteLocation,
         width: '40px',
         height: '40px'
       }}

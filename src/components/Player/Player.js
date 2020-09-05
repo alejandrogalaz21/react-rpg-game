@@ -5,9 +5,15 @@ import { store } from '../../App'
 import { dispatchMove } from './player.redux'
 import { socket } from '../../socket'
 import Sprite from './Sprite'
-import { getNewPosition, atteemptMove, getDirection } from './player.helper'
+import {
+  getNewPosition,
+  atteemptMove,
+  getDirection,
+  getSpriteLocation,
+  getWalkIndex
+} from './player.helper'
 
-const Player = ({ position, matrix, ...props }) => {
+const Player = ({ position, spriteLocation, matrix, ...props }) => {
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown)
     return () => {
@@ -18,13 +24,22 @@ const Player = ({ position, matrix, ...props }) => {
   // Handle key's
   function handleKeyDown(event) {
     event.preventDefault()
+    // get data from the store
     const oldPos = store.getState().player.position
+    const walkIndex = store.getState().player.walkIndex
+    // get new props for the store
+    const direction = getDirection(event.keyCode)
+    const newWalkIndex = getWalkIndex(walkIndex)
+    const newSpriteLocation = getSpriteLocation(direction, newWalkIndex)
     const newPos = getNewPosition(event.keyCode, oldPos)
+    // set value's
     const poss = atteemptMove(newPos, oldPos, matrix)
-    props.dispatchMove(poss, () => socket.emit('update_player', poss))
+    props.dispatchMove(poss, direction, newSpriteLocation, newWalkIndex, () =>
+      socket.emit('update_player', poss)
+    )
   }
 
-  return <Sprite position={position} />
+  return <Sprite position={position} spriteLocation={spriteLocation} />
 }
 
 const mapStateToProps = ({ player, map }) => ({ ...player, ...map })
