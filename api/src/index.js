@@ -15,10 +15,11 @@ io.on('connection', function (socket) {
 
   io.emit('connect_player', players)
 
-  socket.on('update_player', position => {
-    console.log(`* ${socket.id} has moved to [${position}]`)
-    players = players.map(p => (p.id === socket.id ? { ...p, position } : p))
-    socket.broadcast.emit('update_player', { id: socket.id, position })
+  socket.on('update_player', data => {
+    console.log(`* ${socket.id} change props`)
+    console.log({ data })
+    players = players.map(p => (p.id === socket.id ? { ...p, ...data } : p))
+    socket.broadcast.emit('update_player', { id: socket.id, ...data })
   })
 
   socket.on('disconnect', () => {

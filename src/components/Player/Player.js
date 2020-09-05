@@ -35,7 +35,12 @@ const Player = ({ position, spriteLocation, matrix, ...props }) => {
     // set value's
     const poss = atteemptMove(newPos, oldPos, matrix)
     props.dispatchMove(poss, direction, newSpriteLocation, newWalkIndex, () =>
-      socket.emit('update_player', poss)
+      socket.emit('update_player', {
+        position: poss,
+        direction,
+        spriteLocation: newSpriteLocation,
+        walkIndex: newWalkIndex
+      })
     )
   }
 
